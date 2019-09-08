@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag }  from '../../ui/misc';
+import { Tag } from '../../ui/misc';
 
 const MatchesHome = () => {
   return (
@@ -16,8 +16,8 @@ const MatchesHome = () => {
         Blocks
 
         <Tag
-           bck="#ffffff"
-           size="22px"
+          bck="#ffffff"
+          size="22px"
           color="#0e1731"
           link={true}
           linkto="/the_team"
