@@ -4,6 +4,8 @@ import Fade from 'react-reveal/Fade';
 import FormFiled from '../../ui/formField';
 import { validate } from '../../ui/misc';
 
+import { firebasePromotions } from '../../../firebase';
+
 class Enroll extends Component {
 
   state = {
@@ -46,6 +48,32 @@ class Enroll extends Component {
     })
   }
 
+  resetFormSuccess(type) {
+    const newFormData = { ...this.state.formData }
+
+    for (let key in newFormData) {
+      newFormData[key].value = '';
+      newFormData[key].valid = false;
+      newFormData[key].validationMessage = '';
+    }
+
+    this.setState({
+      formError: false,
+      formData: newFormData,
+      formSuccess: type ? 'Congratulations!!!' : 'Already on the database'
+    })
+
+    this.successMessage();
+  }
+
+  successMessage() {
+    setTimeout(() => {
+      this.setState({
+        formSuccess: ''
+      })
+    }, 1500);
+  }
+
   submitForm(event) {
     event.preventDefault();
 
@@ -58,7 +86,15 @@ class Enroll extends Component {
     }
 
     if (formIsValid) {
-      console.log('dataToSubmit');
+      firebasePromotions.orderByChild('email').equalTo(dataToSubmit.email).once('value')
+        .then((snapshot) => {
+          if (snapshot.val() === null) {
+            firebasePromotions.push(dataToSubmit);
+            this.resetFormSuccess(true);
+          } else {
+            this.resetFormSuccess(false);
+          }
+        })
     } else {
       this.setState({
         formError: true
@@ -83,8 +119,14 @@ class Enroll extends Component {
 
               {this.state.formError ?
                 <div className="error_label">Something is wrong, try again?</div>
-                : null }
-              <button onClick={(event)=> this.submitForm(event)}>Enroll</button>
+                : null}
+              
+              <div className="success_label">{this.state.formSuccess}</div>
+              <button onClick={(event) => this.submitForm(event)}>Enroll</button>
+              
+              <div className="enroll_discl">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum dolorum voluptas sunt eveniet, ipsam mollitia sed accusantium suscipit!
+              </div>
             </div>
           </form>
         </div>
