@@ -1,50 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { firebase } from "../../firebase";
 
-import FormFiled from '../ui/formField';
-import { validate } from '../ui/misc';
-
+import FormFiled from "../ui/formField";
+import { validate } from "../ui/misc";
 
 class SignIn extends Component {
-
   state = {
     formError: false,
-    formSuccess: '',
+    formSuccess: "",
     formData: {
       email: {
-        element: 'input',
-        value: '',
+        element: "input",
+        value: "",
         config: {
-          name: 'email_input',
-          type: 'email',
-          placeholder: 'Enter your email'
+          name: "email_input",
+          type: "email",
+          placeholder: "Enter your email"
         },
         validation: {
           required: true,
           email: true
         },
         valid: false,
-        validationMessage: ''
+        validationMessage: ""
       },
       password: {
-        element: 'input',
-        value: '',
+        element: "input",
+        value: "",
         config: {
-          name: 'password_input',
-          type: 'password',
-          placeholder: 'Enter your password'
+          name: "password_input",
+          type: "password",
+          placeholder: "Enter your password"
         },
         validation: {
           required: true
         },
         valid: false,
-        validationMessage: ''
+        validationMessage: ""
       }
     }
-  }
+  };
 
   updateForm(element) {
-    const newFormData = { ...this.state.formData }
-    const newElement = { ...newFormData[element.id] }
+    const newFormData = { ...this.state.formData };
+    const newElement = { ...newFormData[element.id] };
 
     newElement.value = element.event.target.value;
 
@@ -57,7 +56,7 @@ class SignIn extends Component {
     this.setState({
       formError: false,
       formData: newFormData
-    })
+    });
   }
 
   submitForm(event) {
@@ -72,42 +71,57 @@ class SignIn extends Component {
     }
 
     if (formIsValid) {
-      console.log('data submit', dataToSubmit);
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(dataToSubmit.email, dataToSubmit.password)
+        .then(() => {
+          this.props.history.push('/dashboard');
+        })
+        .catch(error => {
+          this.setState({
+            formError: true
+          });
+        });
     } else {
       this.setState({
         formError: true
-      })
+      });
     }
   }
 
   render() {
     return (
       <div className="container">
-        <div className="signin_wrapper"
+        <div
+          className="signin_wrapper"
           style={{
-            margin: '100px'
+            margin: "100px"
           }}
         >
-          <form action="" onSubmit={(event) => this.submitForm(event)}>
+          <form action="" onSubmit={event => this.submitForm(event)}>
             <h2>Please Login</h2>
 
             <FormFiled
-              id={'email'}
+              id={"email"}
               formData={this.state.formData.email}
-              change={(element) => this.updateForm(element)}
+              change={element => this.updateForm(element)}
             />
 
             <FormFiled
-              id={'password'}
+              id={"password"}
               formData={this.state.formData.password}
-              change={(element) => this.updateForm(element)}
+              change={element => this.updateForm(element)}
             />
 
-            <button onClick={(event) => this.submitForm(event)}>Log in</button>
+            {this.state.formError ? (
+              <div className="error_label">Something is wrong, try again?</div>
+            ) : null}
+
+            <button onClick={event => this.submitForm(event)}>Log in</button>
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
 
