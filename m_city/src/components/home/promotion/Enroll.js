@@ -33,7 +33,7 @@ class Enroll extends Component {
   updateForm(element) {
     const newFormData = { ...this.state.formData }
     const newElement = { ...newFormData[element.id] }
-    
+
     newElement.value = element.event.target.value;
 
     let validData = validate(newElement);
@@ -120,10 +120,10 @@ class Enroll extends Component {
               {this.state.formError ?
                 <div className="error_label">Something is wrong, try again?</div>
                 : null}
-              
+
               <div className="success_label">{this.state.formSuccess}</div>
               <button onClick={(event) => this.submitForm(event)}>Enroll</button>
-              
+
               <div className="enroll_discl">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum dolorum voluptas sunt eveniet, ipsam mollitia sed accusantium suscipit!
               </div>
