@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
+import 'firebase/storage';
 
  // Your web app's Firebase configuration
  const firebaseConfig = {
@@ -9,7 +10,7 @@ import 'firebase/auth';
   authDomain: "m-city123.firebaseapp.com",
   databaseURL: "https://m-city123.firebaseio.com",
   projectId: "m-city123",
-  storageBucket: "",
+  storageBucket: "m-city123.appspot.com",
   messagingSenderId: "972214388483",
   appId: "1:972214388483:web:0d9c49fbf64e9d245bcb36"
 };
