@@ -92,6 +92,22 @@ class AddEditPlayers extends Component {
     }
   };
 
+  updateFields = (playerData, playerId, formType, defaultImg) => {
+    const newFormData = {...this.state.formData};
+
+    for(let key in newFormData) {
+      newFormData[key].value = playerData[key];
+      newFormData[key].valid = true;
+    }
+
+    this.setState({
+      playerId,
+      formType,
+      defaultImg,
+      formData: newFormData
+    })
+  }
+
   componentDidMount() {
     const playerId = this.props.match.params.id;
 
@@ -102,6 +118,24 @@ class AddEditPlayers extends Component {
       })
     } else {
       /// Edit player
+      firebaseDB.ref(`players/${playerId}`).once('value')
+        .then((snapshot) => {
+          const playerData = snapshot.val();
+
+          firebase.storage().ref('players')
+            .child(playerData.image)
+            .getDownloadURL()
+            .then((url) => {
+              this.updateFields(playerData, playerId, 'Edit player', url)
+            })
+            .catch(e => {
+              /// If image not found same server then this method apply
+              this.updateFields({
+                ...playerData,
+                image: '',
+              }, playerId, 'Edit player', '')
+            })
+        })
     }
   }
 
@@ -127,6 +161,18 @@ class AddEditPlayers extends Component {
     });
   }
 
+  successForm(message) {
+    this.setState({
+      formSuccess: message
+    })
+
+    setTimeout(() => {
+      this.setState({
+        formSuccess: ''
+      })
+    }, 1500)
+  }
+
   submitForm(event) {
     event.preventDefault();
 
@@ -142,6 +188,16 @@ class AddEditPlayers extends Component {
       /// submit form
      if(this.state.formType === 'Edit player') {
        /// Edit player function
+       firebaseDB.ref(`players/${this.state.playerId}`)
+         .update(dataToSubmit)
+         .then(() => {
+            this.successForm('Updated correctly!!!');
+         })
+         .catch(e => {
+          this.setState({
+            formError: true
+          })
+         })
      } else {
        /// Add player function
        firebasePlayers.push(dataToSubmit)
