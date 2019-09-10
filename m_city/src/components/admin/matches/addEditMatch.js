@@ -210,6 +210,7 @@ class AddEditMatch extends Component {
 
     if(!matchId) {
       /// Add match
+      getTeams(false, 'Add Match');
     } else {
       firebaseDB.ref(`matches/${matchId}`).once('value')
         .then((snapshot) => {
@@ -284,6 +285,15 @@ class AddEditMatch extends Component {
           })
       } else {
         // Add Match
+        firebaseMatches.push(dataToSubmit)
+          .then(() => {
+            this.props.history.push('/admin_matches');
+          })
+          .catch((e) => {
+            this.setState({
+              formError: true
+            });
+          })
       }
     } else {
       this.setState({
