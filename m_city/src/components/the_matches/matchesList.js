@@ -87,7 +87,6 @@ class MatchesList extends Component {
 
 
   render() {
-    console.log(this.state.matcheslist)
     return (
       <div>
         {this.showMatches()}
