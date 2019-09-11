@@ -55,8 +55,7 @@ class MatchesList extends Component {
                   transform: `translate(${x}px)`
                 }}
               >
-                h ah ahas
-                {/* <div className="block_wraper">
+                <div className="block_wraper">
                   <div className="block">
                     <div
                       className="icon"
@@ -76,7 +75,7 @@ class MatchesList extends Component {
                   <div><strong>Date:</strong> {data.date}</div>
                   <div><strong>Stadium:</strong> {data.stadium}</div>
                   <div><strong>Referee:</strong> {data.referee}</div>
-                </div> */}
+                </div>
               </div>
             ))}
           </div>
