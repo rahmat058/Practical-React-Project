@@ -42,6 +42,7 @@ app.post('/api/product/article', auth, admin, (req, res) => {
   })
 })
 
+/// /api/product/articles_by_id?id=5d7d0379a5a26a0f2c88866c,5d7d04eda5a26a0f2c88866d,5d7d0545a5a26a0f2c88866e & type=array || single
 app.get('/api/product/articles_by_id', (req, res) => {
   let type = req.query.type;
   let items = req.query.id;
@@ -61,8 +62,31 @@ app.get('/api/product/articles_by_id', (req, res) => {
     .exec((err, docs) => {
       return res.status(200).send(docs)
     })
-})
+});
 
+
+// By Arrival
+// /articales?sortBy=createdAt&order=desc&limit=4
+
+// By Sell
+// /articales?sortBy=sold&order=desc&limit=100&skip=5
+
+app.get('/api/product/articles', (req, res) => {
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit, 10) : 100;
+  
+  Product
+    .find({})
+    .populate('brand')
+    .populate('wood')
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((err, articles) => {
+      if(err) return res.status(400).send(err);
+      res.send(articles);
+    })
+})
 
 
 //=================================
