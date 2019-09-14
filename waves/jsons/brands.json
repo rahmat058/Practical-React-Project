@@ -1,0 +1,9 @@
+{"_id":{"$oid":"5b2c11481470fbaecd159dfd"},"name":"Fender"}
+{"_id":{"$oid":"5b2c11d2d37177aedfd6d962"},"name":"Ibanez"}
+{"_id":{"$oid":"5d7cb862e460702008cfdd49"},"name":"Charvel"}
+{"_id":{"$oid":"5d7cb8bbe460702008cfdd4a"},"name":"Jackson"}
+{"_id":{"$oid":"5d7cb8d3e460702008cfdd4b"},"name":"Gibson"}
+{"_id":{"$oid":"5d7cb8e6e460702008cfdd4c"},"name":"Cort"}
+{"_id":{"$oid":"5d7cb8f5e460702008cfdd4d"},"name":"Schecter"}
+{"_id":{"$oid":"5d7cb905e460702008cfdd4e"},"name":"Reverend"}
+{"_id":{"$oid":"5d7cb914e460702008cfdd4f"},"name":"Ernie ball"}
