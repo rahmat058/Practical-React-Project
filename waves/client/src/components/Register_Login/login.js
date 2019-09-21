@@ -55,7 +55,7 @@ class Login extends Component {
     })
   }
 
-  formSubmit = (event) => {
+  submitForm = (event) => {
     event.preventDefault();
 
     let dataToSubmit = generateData(this.state.formData, 'login');
@@ -83,7 +83,7 @@ class Login extends Component {
   render() {
     return (
       <div className="signin_wrapper">
-        <form action="" onSubmit={(event) => this.formSubmit(event)}>
+        <form action="" onSubmit={(event) => this.submitForm(event)}>
             <FormField 
               id={'email'}
               formData={this.state.formData.email}
@@ -103,7 +103,7 @@ class Login extends Component {
               : null
             }
 
-            <button onClick={(event) => this.formSubmit(event)}>
+            <button onClick={(event) => this.submitForm(event)}>
               Log in
             </button>
         </form>
