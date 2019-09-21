@@ -7,6 +7,12 @@ export const validate = (element, formData= []) => {
     error = !valid ? [valid,message] : error;
   }
 
+  if(element.validation.confirm) {
+    const valid = element.value.trim() === formData[element.validation.confirm].value;
+    const message = `${!valid ? 'Password do not match':''}`;
+    error = !valid ? [valid,message] : error;
+  }
+
   if(element.validation.required){
     const valid = element.value.trim() !== '';
     const message = `${!valid ? 'This field is required':''}`;
@@ -44,7 +50,9 @@ export const generateData = (formData, formName) => {
   let dataToSubmit = {};
 
   for(let key in formData) {
-    dataToSubmit[key] = formData[key].value;
+    if(key !== 'confirmPassword') {
+      dataToSubmit[key] = formData[key].value;
+    }
   }
 
   return dataToSubmit;
